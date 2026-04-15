@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Лист персонажа D&D</title>
+    <title>Создание персонажа D&D</title>
     <style>
         body {
             font-family: 'Garamond', serif;
@@ -13,10 +13,11 @@
             padding: 16px;
             box-sizing: border-box;
         }
-        h1, h2 {
+        h1 {
             color: #d4af37;
             text-shadow: 1px 1px 2px black;
             text-align: center;
+            margin-bottom: 20px;
         }
         .container {
             max-width: 400px;
@@ -26,19 +27,18 @@
             background-color: #2c1e16;
             border: 2px solid #5c4033;
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 20px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
         .character-sheet label {
             display: block;
-            margin-top: 10px;
+            margin-top: 12px;
             color: #c4a882;
             font-weight: bold;
         }
         .character-sheet input, .character-sheet textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-top: 4px;
             background-color: #1a120b;
             border: 1px solid #5c4033;
@@ -56,70 +56,32 @@
             background-color: #3a281e;
             border: 2px solid #8a6e5e;
             color: #f0e6d2;
-            padding: 10px;
-            margin-top: 12px;
+            padding: 12px;
+            margin-top: 20px;
             width: 100%;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            box-shadow: 0 4px 0 #1a120b;
         }
         .save-btn:active {
             background-color: #5c4033;
             transform: translateY(2px);
+            box-shadow: 0 2px 0 #1a120b;
         }
-        .action-panel {
-            background-color: #2c1e16;
-            border: 2px solid #5c4033;
-            border-radius: 12px;
-            padding: 16px;
-        }
-        .info-text {
-            background-color: #1a120b;
-            border: 1px solid #5c4033;
-            border-radius: 8px;
-            padding: 12px;
-            margin: 15px 0;
-            font-size: 16px;
-            color: #c4a882;
-            text-align: center;
-        }
-        .action-input-group {
-            display: flex;
-            gap: 8px;
+        .hint {
+            font-size: 14px;
+            color: #a08060;
             margin-top: 10px;
-        }
-        .action-input-group input {
-            flex: 1;
-            padding: 12px;
-            background-color: #1a120b;
-            border: 2px solid #5c4033;
-            color: #f0e6d2;
-            border-radius: 8px;
-            font-family: 'Garamond', serif;
-            font-size: 16px;
-        }
-        .action-input-group button {
-            background-color: #3a281e;
-            border: 2px solid #8a6e5e;
-            color: #f0e6d2;
-            padding: 0 20px;
-            font-weight: bold;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .action-input-group button:active {
-            background-color: #5c4033;
-            transform: translateY(2px);
+            text-align: center;
         }
         .close-btn {
             background-color: #5c1a1a;
             border: 2px solid #8a2b2b;
             color: #f0e6d2;
-            padding: 12px;
+            padding: 10px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 20px;
@@ -132,43 +94,30 @@
             background-color: #7a2424;
             transform: translateY(2px);
         }
-        .hint {
-            font-size: 14px;
-            color: #a08060;
-            margin-top: 5px;
-        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>⚔️ ЛИСТ ГЕРОЯ ⚔️</h1>
+    <h1>⚔️ СОЗДАНИЕ ГЕРОЯ ⚔️</h1>
     
-    <!-- Панель персонажа -->
     <div class="character-sheet">
         <label>Имя персонажа:</label>
-        <input type="text" id="charName" placeholder="Арктур Храбрый">
+        <input type="text" id="charName" placeholder="Арктур Храбрый" maxlength="50">
+        
         <label>Раса:</label>
         <input type="text" id="charRace" placeholder="Человек / Эльф / Дварф...">
+        
         <label>Класс:</label>
         <input type="text" id="charClass" placeholder="Воин / Маг / Вор...">
+        
         <label>Способности и снаряжение:</label>
         <textarea id="charAbilities" placeholder="Длинный меч, кольчуга, зелье лечения, навык скрытности..."></textarea>
-        <button class="save-btn" id="saveCharacterBtn">💾 Сохранить персонажа</button>
-        <div class="hint">Данные сохраняются только на этом устройстве.</div>
-    </div>
-
-    <!-- Панель действий -->
-    <div class="action-panel">
-        <h2>📜 ДЕЙСТВИЕ</h2>
-        <div class="info-text" id="statusMessage">
-            Опишите, что вы делаете, или выберите вариант из чата.
-        </div>
         
-        <div class="action-input-group">
-            <input type="text" id="customActionInput" placeholder="Ваше действие...">
-            <button id="sendCustomActionBtn">➡️</button>
-        </div>
-        <div class="hint">Нажмите Enter или кнопку справа</div>
+        <label>Предыстория (необязательно):</label>
+        <textarea id="charBackstory" placeholder="Откуда ты родом, почему стал искателем приключений..."></textarea>
+        
+        <button class="save-btn" id="saveCharacterBtn">💾 СОХРАНИТЬ И ИГРАТЬ</button>
+        <div class="hint">Данные отправятся Мастеру, и он будет помнить твоего героя.</div>
     </div>
 
     <button class="close-btn" id="closeAppBtn">🚪 Закрыть</button>
@@ -180,85 +129,79 @@
     tg.ready();
     tg.expand();
 
-    // === ЗАГРУЗКА И СОХРАНЕНИЕ ПЕРСОНАЖА ===
-    const charName = document.getElementById('charName');
-    const charRace = document.getElementById('charRace');
-    const charClass = document.getElementById('charClass');
-    const charAbilities = document.getElementById('charAbilities');
+    // Элементы формы
+    const nameInput = document.getElementById('charName');
+    const raceInput = document.getElementById('charRace');
+    const classInput = document.getElementById('charClass');
+    const abilitiesInput = document.getElementById('charAbilities');
+    const backstoryInput = document.getElementById('charBackstory');
     const saveBtn = document.getElementById('saveCharacterBtn');
-    const statusEl = document.getElementById('statusMessage');
+    const closeBtn = document.getElementById('closeAppBtn');
 
-    // Загрузка из localStorage
-    function loadCharacter() {
-        const saved = localStorage.getItem('dnd_character');
+    // Загрузка сохранённых данных из localStorage (на случай повторного открытия)
+    function loadSavedCharacter() {
+        const saved = localStorage.getItem('dnd_character_draft');
         if (saved) {
             try {
                 const data = JSON.parse(saved);
-                charName.value = data.name || '';
-                charRace.value = data.race || '';
-                charClass.value = data.class || '';
-                charAbilities.value = data.abilities || '';
+                nameInput.value = data.name || '';
+                raceInput.value = data.race || '';
+                classInput.value = data.class || '';
+                abilitiesInput.value = data.abilities || '';
+                backstoryInput.value = data.backstory || '';
             } catch(e) {}
         }
     }
-
-    // Сохранение
-    function saveCharacter() {
-        const data = {
-            name: charName.value,
-            race: charRace.value,
-            class: charClass.value,
-            abilities: charAbilities.value
+    
+    // Автосохранение черновика при вводе
+    function saveDraft() {
+        const draft = {
+            name: nameInput.value,
+            race: raceInput.value,
+            class: classInput.value,
+            abilities: abilitiesInput.value,
+            backstory: backstoryInput.value
         };
-        localStorage.setItem('dnd_character', JSON.stringify(data));
-        statusEl.innerText = '✅ Персонаж сохранён!';
-        setTimeout(() => { statusEl.innerText = 'Опишите, что вы делаете...'; }, 1500);
+        localStorage.setItem('dnd_character_draft', JSON.stringify(draft));
     }
-    saveBtn.addEventListener('click', saveCharacter);
-    loadCharacter();
+    
+    [nameInput, raceInput, classInput, abilitiesInput, backstoryInput].forEach(input => {
+        input.addEventListener('input', saveDraft);
+    });
+    
+    loadSavedCharacter();
 
-    // === ОТПРАВКА ДЕЙСТВИЯ ===
-    function sendAction(action) {
-        // Добавляем информацию о персонаже к действию (опционально)
-        const charInfo = `[${charName.value || 'Безымянный'}, ${charRace.value || '??'}, ${charClass.value || '??'}]`;
-        const fullAction = `${charInfo} ${action}`;
+    // Отправка персонажа боту
+    function sendCharacter() {
+        const name = nameInput.value.trim();
+        if (!name) {
+            tg.showPopup({ title: 'Ошибка', message: 'Введите хотя бы имя персонажа!' });
+            return;
+        }
+
+        // Формируем строку для sendData в формате key=value&...
+        const params = new URLSearchParams();
+        params.append('name', name);
+        params.append('race', raceInput.value.trim() || 'Неизвестно');
+        params.append('class', classInput.value.trim() || 'Неизвестно');
+        params.append('abilities', abilitiesInput.value.trim() || '');
+        params.append('backstory', backstoryInput.value.trim() || '');
         
-        statusEl.innerText = `🎲 Отправляю: "${action}"...`;
-        tg.sendData(fullAction);
+        const dataString = params.toString();
+        
+        // Показываем уведомление
+        tg.showPopup({
+            title: 'Персонаж создан',
+            message: `${name} готов к приключениям!`
+        }, () => {
+            // После закрытия попапа отправляем данные и закрываем Mini App
+            tg.sendData(dataString);
+        });
     }
 
-    const customInput = document.getElementById('customActionInput');
-    const sendBtn = document.getElementById('sendCustomActionBtn');
-
-    sendBtn.addEventListener('click', () => {
-        const action = customInput.value.trim();
-        if (action) {
-            sendAction(action);
-        } else {
-            statusEl.innerText = '⚠️ Введите действие.';
-        }
-    });
-
-    customInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            const action = customInput.value.trim();
-            if (action) sendAction(action);
-        }
-    });
-
-    document.getElementById('closeAppBtn').addEventListener('click', () => tg.close());
-
-    // === АВТООТПРАВКА ПРИ НАЛИЧИИ ПАРАМЕТРА action ===
-    const urlParams = new URLSearchParams(window.location.search);
-    const actionParam = urlParams.get('action');
-    if (actionParam) {
-        // Декодируем и сразу отправляем
-        const decodedAction = decodeURIComponent(actionParam);
-        // Небольшая задержка, чтобы приложение успело инициализироваться
-        setTimeout(() => {
-            sendAction(decodedAction);
-        }, 500);
-    }
+    saveBtn.addEventListener('click', sendCharacter);
+    
+    closeBtn.addEventListener('click', () => tg.close());
 </script>
 </body>
 </html>
