@@ -173,31 +173,28 @@
 
     // Отправка персонажа боту
     function sendCharacter() {
-        const name = nameInput.value.trim();
-        if (!name) {
-            tg.showPopup({ title: 'Ошибка', message: 'Введите хотя бы имя персонажа!' });
-            return;
-        }
-
-        // Формируем строку для sendData в формате key=value&...
-        const params = new URLSearchParams();
-        params.append('name', name);
-        params.append('race', raceInput.value.trim() || 'Неизвестно');
-        params.append('class', classInput.value.trim() || 'Неизвестно');
-        params.append('abilities', abilitiesInput.value.trim() || '');
-        params.append('backstory', backstoryInput.value.trim() || '');
-        
-        const dataString = params.toString();
-        
-        // Показываем уведомление
-        tg.showPopup({
-            title: 'Персонаж создан',
-            message: `${name} готов к приключениям!`
-        }, () => {
-            // После закрытия попапа отправляем данные и закрываем Mini App
-            tg.sendData(dataString);
-        });
+    const name = nameInput.value.trim();
+    if (!name) {
+        alert('⚠️ Введите хотя бы имя персонажа!');
+        return;
     }
+
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('race', raceInput.value.trim() || 'Неизвестно');
+    params.append('class', classInput.value.trim() || 'Неизвестно');
+    params.append('abilities', abilitiesInput.value.trim() || '');
+    params.append('backstory', backstoryInput.value.trim() || '');
+    
+    const dataString = params.toString();
+    
+    // Можно добавить визуальный фидбек перед отправкой
+    saveBtn.textContent = '⏳ Отправка...';
+    saveBtn.disabled = true;
+    
+    // Отправляем данные боту (окно закроется автоматически)
+    tg.sendData(dataString);
+}
 
     saveBtn.addEventListener('click', sendCharacter);
     
