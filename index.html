@@ -138,7 +138,7 @@
     const saveBtn = document.getElementById('saveCharacterBtn');
     const closeBtn = document.getElementById('closeAppBtn');
 
-    // Загрузка сохранённых данных из localStorage (на случай повторного открытия)
+    // Загрузка сохранённых данных из localStorage (черновик)
     function loadSavedCharacter() {
         const saved = localStorage.getItem('dnd_character_draft');
         if (saved) {
@@ -173,31 +173,30 @@
 
     // Отправка персонажа боту
     function sendCharacter() {
-    const name = nameInput.value.trim();
-    if (!name) {
-        alert('⚠️ Введите хотя бы имя персонажа!');
-        return;
+        const name = nameInput.value.trim();
+        if (!name) {
+            alert('⚠️ Введите хотя бы имя персонажа!');
+            return;
+        }
+
+        const params = new URLSearchParams();
+        params.append('name', name);
+        params.append('race', raceInput.value.trim() || 'Неизвестно');
+        params.append('class', classInput.value.trim() || 'Неизвестно');
+        params.append('abilities', abilitiesInput.value.trim() || '');
+        params.append('backstory', backstoryInput.value.trim() || '');
+        
+        const dataString = params.toString();
+        
+        // Визуальный фидбек
+        saveBtn.textContent = '⏳ Отправка...';
+        saveBtn.disabled = true;
+        
+        // Отправляем данные боту (окно закроется)
+        tg.sendData(dataString);
     }
 
-    const params = new URLSearchParams();
-    params.append('name', name);
-    params.append('race', raceInput.value.trim() || 'Неизвестно');
-    params.append('class', classInput.value.trim() || 'Неизвестно');
-    params.append('abilities', abilitiesInput.value.trim() || '');
-    params.append('backstory', backstoryInput.value.trim() || '');
-    
-    const dataString = params.toString();
-    
-    // Можно добавить визуальный фидбек перед отправкой
-    saveBtn.textContent = '⏳ Отправка...';
-    saveBtn.disabled = true;
-    
-    // Отправляем данные боту (окно закроется автоматически)
-    tg.sendData(dataString);
-}
-
     saveBtn.addEventListener('click', sendCharacter);
-    
     closeBtn.addEventListener('click', () => tg.close());
 </script>
 </body>
