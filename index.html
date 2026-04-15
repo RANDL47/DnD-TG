@@ -173,28 +173,40 @@
 
     // Отправка персонажа боту
     function sendCharacter() {
-        const name = nameInput.value.trim();
-        if (!name) {
-            alert('⚠️ Введите хотя бы имя персонажа!');
-            return;
-        }
-
-        const params = new URLSearchParams();
-        params.append('name', name);
-        params.append('race', raceInput.value.trim() || 'Неизвестно');
-        params.append('class', classInput.value.trim() || 'Неизвестно');
-        params.append('abilities', abilitiesInput.value.trim() || '');
-        params.append('backstory', backstoryInput.value.trim() || '');
-        
-        const dataString = params.toString();
-        
-        // Визуальный фидбек
-        saveBtn.textContent = '⏳ Отправка...';
-        saveBtn.disabled = true;
-        
-        // Отправляем данные боту (окно закроется)
-        tg.sendData(dataString);
+    const name = nameInput.value.trim();
+    if (!name) {
+        alert('⚠️ Введите хотя бы имя персонажа!');
+        return;
     }
+
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('race', raceInput.value.trim() || 'Неизвестно');
+    params.append('class', classInput.value.trim() || 'Неизвестно');
+    params.append('abilities', abilitiesInput.value.trim() || '');
+    params.append('backstory', backstoryInput.value.trim() || '');
+    
+    const dataString = params.toString();
+    
+    // Визуальный фидбек
+    saveBtn.textContent = '⏳ Отправка...';
+    saveBtn.disabled = true;
+    
+    try {
+        // Отправляем данные боту
+        tg.sendData(dataString);
+        
+        // На случай, если окно не закроется автоматически, закроем принудительно через 500 мс
+        setTimeout(() => {
+            tg.close();
+        }, 500);
+    } catch (e) {
+        console.error('Ошибка sendData:', e);
+        alert('Ошибка отправки. Попробуйте ещё раз.');
+        saveBtn.textContent = '💾 СОХРАНИТЬ И ИГРАТЬ';
+        saveBtn.disabled = false;
+    }
+}
 
     saveBtn.addEventListener('click', sendCharacter);
     closeBtn.addEventListener('click', () => tg.close());
